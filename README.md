@@ -43,7 +43,7 @@ All the configuration settings must be wrapped in the "connection" key, as shown
 `````
 
 Once that you set the configuration file, then you are ablre to use the api.
- - Initialization
+ - #Initialization
 
    `````php
    API::setTable('table_name');
