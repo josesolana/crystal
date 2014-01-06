@@ -89,10 +89,10 @@ All the configuration settings must be wrapped in the "connection" key, as shown
 Once that you set the configuration file, then you are able to use the api.
  - **Initialization**
 
-   `````php
-   API::setTable('table_name');
-   $DB = new API();
-   `````
+`````php
+API::setTable('table_name');
+$DB = new API();
+`````
    
 Example
 =======
