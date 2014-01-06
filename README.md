@@ -3,9 +3,45 @@ Crystal
 
 Simple database framework
 
+Documentation
+============
+ - **Crystal::select**
+ 
+`````php 
+Crystal select( mixed $field_1 [, mixed $...] )
+`````
+ - **Crystal::insert**
+ 
+`````php 
+Crystal insert( array $assoc [, array $... ])
+`````
+ - **Crystal::update**
+ 
+`````php 
+Crystal update( array $assoc )
+`````
+ - **Crystal::delete**
+ 
+`````php 
+Crystal delete( void )
+`````
+   
+*The following methods must be chained from a query method*
+
+ - **Crystal::where** (chained from ``[select|update|delete]``)
+
+`````php 
+Crystal where( mixed $field, [ string comparison ], mixed $value )
+`````
+ - **Crystal::limit** (chained from ``[select]``)
+
+`````php 
+Crystal limit( Integer $limit )
+`````
+
 Usage
 =====
-First of all, you must enter your data in the configuration file (``/config/database.json``).
+First of all, you must enter your data in the configuration file ``/config/database.json``.
 
 Here is a list of the settings:
 
@@ -43,30 +79,9 @@ All the configuration settings must be wrapped in the "connection" key, as shown
 `````
 
 Once that you set the configuration file, then you are ablre to use the api.
- - #Initialization
+ - ####Initialization
 
    `````php
    API::setTable('table_name');
    $DB = new API();
    `````
- - Select
- 
-   ``Crystal select( mixed $field_1 [, mixed $...] )``
- - Insert
-
-   ``Crystal insert( array $assoc [, array $... ])``
- - Update
-
-   ``Crystal update( array $assoc )``
- - Delete
-
-   ``Crystal delete()``
-   
-The following methods must be chained from a query method
-
- - Where (chained from [select|update|delete])
-
-   ``Crystal where( mixed $field, [ string comparison ], mixed $value )``
- - Limit (chained from [select])
-
-   ``Crystal limit( Integer $limit )``
