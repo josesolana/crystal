@@ -153,11 +153,13 @@ Here is a list of the future implementations of the API:
  - *Custom queries*
  - *Extended SQL syntax (``join, using, on, ...``)*
  - *Process stored procedures*
+ - *Cache options*
+ - *read and write connections*
  - *Boolean values in ``where()``*
  - *Error handling*
  - *Namespaces*
  - *Better file organization*
- - *More*
+ - *More sql implementations (``create user, set grant, create database, truncate table, delete database, ...``)*
 
 Contact
 =======
