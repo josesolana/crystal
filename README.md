@@ -1,7 +1,7 @@
 Crystal
 =======
 
-Simple database framework
+Simple database framework [``PHP 5.4+``]
 
 Documentation
 ============
@@ -39,25 +39,33 @@ Crystal where( mixed $field, [ string comparison ], mixed $value )
 Crystal limit( Integer $limit )
 `````
 
+ - **Crystal::execute**
+
+`````php
+mixed execute ( [ callable $callback ( boolean $error, Array $result, Integer $counter ) ] )
+`````
+
 Usage
 =====
+ - **Settings**
+
 First of all, you must enter your data in the configuration file ``/config/database.json``.
 
 Here is a list of the settings:
 
  - ``driver``
-   - MySql
-   - PostgreSql
-   - MS SQL Server
-   - Firebird
-   - IBM
-   - Informix
-   - Cubrid
-   - Oracle
-   - ODBC
-   - DB2
-   - SQLite
-   - 4D
+   - *MySql*
+   - *PostgreSql*
+   - *MS SQL Server*
+   - *Firebird*
+   - *IBM*
+   - *Informix*
+   - *Cubrid*
+   - *Oracle*
+   - *ODBC*
+   - *DB2*
+   - *SQLite*
+   - *4D*
  - ``dbname``
  - ``hostname``
  - ``user``
@@ -79,9 +87,64 @@ All the configuration settings must be wrapped in the "connection" key, as shown
 `````
 
 Once that you set the configuration file, then you are ablre to use the api.
- - ####Initialization
+ - **Initialization**
 
    `````php
    API::setTable('table_name');
    $DB = new API();
    `````
+   
+Example
+=======
+`````php
+<?php
+require_once 'src/Crystal.php';
+
+Crystal::setTable('users');
+$DB = new Crystal();
+
+//Insert
+$insert = $DB->insert(
+    ['nick' => rand(), 'password' => rand(), "country" => "argentina"], 
+    ['nick' => rand(), 'password' => rand(), "country" => "argentina"]
+)->execute();
+//$insert is true or false, depending if the query has been well proccesed
+var_dump($insert);
+
+//Update</h1>
+//update nick when user_id = 1 and nick = 45
+$update = $DB->update(['nick' => rand()])->where('user_id', 1)->where('nick', 45)->execute();
+//update nick when user_id > 1
+$update = $DB->update(['nick' => rand()])->where('user_id', '>', 1)->execute();
+
+//$update is true or false, depending if the query has been well proccessed
+var_dump($update);
+
+//Select
+
+//Select have a callback with the data
+$DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute( function ( $error, Array $collection, $counter ) {
+  if ( !$error ) {
+    //The data as array
+    var_dump($collection);
+    //The data length
+    var_dump($counter);
+  }
+  else {
+    //error
+  }
+});
+
+//$select is false if the query goes wrong or an array with the data
+$select = $DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute();
+
+
+//Delete is true or false, depending if the query is well proccessed
+$delete = $DB->delete()->where('nick', 'tomasito')->where('user_id', '>', 15)->execute();
+var_dump( $delete );
+
+`````
+
+Contact
+=======
+If you have any doubts or want to help, please contact me tomirammstein@gmail.com
