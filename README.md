@@ -145,6 +145,20 @@ var_dump( $delete );
 
 `````
 
+Soon
+====
+Here is a list of the future implementations of the API:
+ 
+ - Transaction methods
+ - Custom queries
+ - Extended SQL syntax (``join, using, on, ...``)
+ - Process stored procedures
+ - Boolean values in ``where()``
+ - Error handling
+ - Namespaces
+ - Better file organization
+ - More
+
 Contact
 =======
 If you have any doubts or want to help, please contact me tomirammstein@gmail.com
