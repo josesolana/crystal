@@ -1,0 +1,10 @@
+{
+  "connection" : [{
+      "driver"   : "mysql",
+      "dbname"   : "prueba",
+      "hostname" : "localhost",
+      "user"     : "root",
+      "pass" : "",
+      "persistence" : true
+  }]
+}
