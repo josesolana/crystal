@@ -49,21 +49,21 @@ Once that you set the configuration file, then you are ablre to use the api.
    $DB = new API();
    `````
  - Select
-   ======
+ - 
    ``Crystal select( mixed $field_1 [, mixed $...] )``
  - Insert
-   ======
+
    ``Crystal insert( array $assoc [, array $... ])``
  - Update
-   ======
+
    ``Crystal update( array $assoc )``
  - Delete
-   ======
+
    ``Crystal delete()``
 The following methods must be chained from a query method
  - Where (chained from [select|update|delete])
-   =====
+
    ``Crystal where( mixed $field, [ string comparison ], mixed $value )``
  - Limit (chained from [select])
-   =====
+
    ``Crystal limit( Integer $limit )``
