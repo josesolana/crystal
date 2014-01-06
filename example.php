@@ -1,31 +1,45 @@
 <?php
-require_once 'classes/API.php';
+require_once 'src/Crystal.php';
 
-API::setTable('users');
-$Query = new API();
-//$select debe ser retornar el objeto QueryConstructor
-//Como no se introdujo ningún campo específico, la función getStatement debe de retornar '*'
-/*
-print'<h1>Insert</h1>';
-$insert = $Query->insert(['nick' => 'tomi'.rand(), 'password' => "eoa", "country" => "argentina", "other" => 5], ['nick' => 'alguien'.rand(), 'password' => "amor", "country" => "argentina", "other" => 5])->execute();
+Crystal::setTable('users');
+$DB = new Crystal();
+
+//Insert
+$insert = $DB->insert(
+    ['nick' => rand(), 'password' => rand(), "country" => "argentina"], 
+    ['nick' => rand(), 'password' => rand(), "country" => "argentina"]
+)->execute();
+//$insert is true or false, depending if the query has been well proccesed
 var_dump($insert);
-*/
-print '<h1>Update</h1>';
-$update = $Query->update(['nick' => 'tomasito'])->where('user_id', 1)->execute();
+
+//Update</h1>
+//update nick when user_id = 1 and nick = 45
+$update = $DB->update(['nick' => rand()])->where('user_id', 1)->where('nick', 45)->execute();
+//update nick when user_id > 1
+$update = $DB->update(['nick' => rand()])->where('user_id', '>', 1)->execute();
+
+//$update is true or false, depending if the query has been well proccessed
 var_dump($update);
 
-print '<h1>Select</h1>';
-$select = $Query->select('nick', 'user_id')->limit(10)->execute( function ( $error, Array $collection, $counter ) {
+//Select
+
+//Select have a callback with the data
+$DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute( function ( $error, Array $collection, $counter ) {
   if ( !$error ) {
+    //The data as array
     var_dump($collection);
+    //The data length
     var_dump($counter);
   }
   else {
-    var_dump('Error');
+    //error
   }
 });
 
+//$select is false if the query goes wrong or an array with the data
+$select = $DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute();
 
-print '<h1>Delete</h1>';
-$delete = $Query->delete()->where('nick', 'tomasito')->execute();
+
+//Delete is true or false, depending if the query is well proccessed
+$delete = $DB->delete()->where('nick', 'tomasito')->where('user_id', '>', 15)->execute();
 var_dump( $delete );
