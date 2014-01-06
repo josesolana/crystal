@@ -523,7 +523,7 @@ class QueryConstructor
 /**
  * Abstraction Layer
  */
-class API extends QueryConstructor
+class Crystal extends QueryConstructor
 {
   
   public function __construct () {
