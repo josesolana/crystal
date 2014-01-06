@@ -86,7 +86,7 @@ All the configuration settings must be wrapped in the "connection" key, as shown
 }
 `````
 
-Once that you set the configuration file, then you are ablre to use the api.
+Once that you set the configuration file, then you are able to use the api.
  - **Initialization**
 
    `````php
@@ -108,7 +108,7 @@ $insert = $DB->insert(
     ['nick' => rand(), 'password' => rand(), "country" => "argentina"], 
     ['nick' => rand(), 'password' => rand(), "country" => "argentina"]
 )->execute();
-//$insert is true or false, depending if the query has been well proccesed
+//$insert is true or false, depending if the query has been well processed
 var_dump($insert);
 
 //Update</h1>
@@ -117,7 +117,7 @@ $update = $DB->update(['nick' => rand()])->where('user_id', 1)->where('nick', 45
 //update nick when user_id > 1
 $update = $DB->update(['nick' => rand()])->where('user_id', '>', 1)->execute();
 
-//$update is true or false, depending if the query has been well proccessed
+//$update is true or false, depending if the query has been well processed
 var_dump($update);
 
 //Select
@@ -139,7 +139,7 @@ $DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute( f
 $select = $DB->select('nick', 'user_id')->where('user_id', '>=', 5)->limit(10)->execute();
 
 
-//Delete is true or false, depending if the query is well proccessed
+//Delete is true or false, depending if the query is well processed
 $delete = $DB->delete()->where('nick', 'tomasito')->where('user_id', '>', 15)->execute();
 var_dump( $delete );
 
