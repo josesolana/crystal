@@ -90,8 +90,9 @@ Once that you set the configuration file, then you are able to use the api.
  - **Initialization**
 
 `````php
-API::setTable('table_name');
-$DB = new API();
+use Crystal\main as Crystal;
+Crystal::setTable('table_name');
+$DB = new Crystal();
 `````
    
 Example
