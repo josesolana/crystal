@@ -161,7 +161,7 @@ Here is a list of the future implementations of the API:
  - *Error handling*
  - ~~*Namespaces*~~ 
  - ~~*Better file organization*~~
- - Autoload classes
+ - *Autoload classes*
  - *More sql implementations (``create user, set grant, create database, truncate table, delete database, ...``)*
 
 Contact
