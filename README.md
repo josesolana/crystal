@@ -148,7 +148,7 @@ var_dump( $delete );
 
 `````
 
-Soon
+Pretty Soon
 ====
 Here is a list of the future implementations of the API:
  - *Chainning in any combination*
