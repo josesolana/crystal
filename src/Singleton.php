@@ -1,4 +1,7 @@
 <?php
+
+namespace Crystal;
+
 trait Singleton {
   
   protected static $_instance;
