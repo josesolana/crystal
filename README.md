@@ -158,7 +158,8 @@ Here is a list of the future implementations of the API:
  - *Boolean values in ``where()``*
  - *Error handling*
  - ~~*Namespaces*~~ 
- - *Better file organization*
+ - ~~*Better file organization*~~
+ - Autoload classes
  - *More sql implementations (``create user, set grant, create database, truncate table, delete database, ...``)*
 
 Contact
