@@ -26,6 +26,7 @@ class QueryConstructor
   
   private $_operation = '',
           $_statement = '',
+          $_boolean   = 'AND',
           $_hasWhere  = false,
           $_values    = Array ()
   ;
@@ -148,20 +149,25 @@ class QueryConstructor
    * @throws Exception
    */
   public function where ( /*multiple arguments*/ ) {
-    $this->operation = 'select';
-    $arguments       = func_get_args();
+
     /**
      * If there are two parameters, an equal relationship is established
      * If there are three parameters, the comparison criterion is explicitly setted
      */
     $arguments = $this->setWhereComparison( func_get_args(), func_num_args() );
     
-    $this->_values = array_merge ( $this->_values, $this->buildAssocValues ( $arguments [ 0 ], $arguments [ 2 ] ) );
+    $field      = $arguments [ 0 ];
+    $comparison = $arguments [ 1 ];
+    $value      = $arguments [ 2 ];
+    $genericKey = $field . round (  rand(1000, 5000) * rand() / rand() );
+    
+    $this->_values = array_merge ( $this->_values, $this->buildAssocValues ( $genericKey, $value ) );
     
     $this->_statement = ( ! $this->_hasWhere ) 
-            ? $this->concat($this->_statement, 'WHERE', $arguments [ 0 ], $arguments [ 1 ], ':'.$arguments [ 0 ]) 
-            : $this->concat($this->_statement, 'AND', $arguments [ 0 ], $arguments [ 1 ], ':'.$arguments [ 1 ]);
+            ? $this->concat($this->_statement, 'WHERE', $field, $comparison, ':'.$genericKey) 
+            : $this->concat($this->_statement, $this->_boolean, $field, $comparison, ':'.$genericKey);
    
+    $this->_boolean = 'AND';
     /**
      * Where is already used
      * This because the second where, will be replaced with de AND keyword
@@ -173,6 +179,11 @@ class QueryConstructor
 
   }
   
+  public function orWhere ( /*multiple arguments*/ ) {
+    $this->_boolean = 'OR';
+    return call_user_func_array( Array ( $this, 'where' ), func_get_args() );
+  }
+  
   /**
    * Limit statement portion
    * @param type $number
@@ -180,12 +191,57 @@ class QueryConstructor
    * @throws Exception
    */
   public function limit ( $number ) {
-    if ( is_integer( $number ) ) {
-      $this->_statement = $this->concat( $this->_statement, 'LIMIT', $number );
-      return $this;
+    if ( 'select' == $this->_operation ) {
+      if ( is_integer( $number ) ) {
+        $this->_statement = $this->concat( $this->_statement, 'LIMIT', $number );
+        return $this;
+      }
+      else
+        throw new \Exception(__FUNCTION__.' parameter must be a number.');  
     }
-    throw new Exception(__FUNCTION__.' parameter must be a number.');
+    throw new \Exception (__FUNCTION__ . ' must be called after the select() query method');
   }
+  
+  public function group () {
+    
+  }
+  
+  public function sort () {
+    
+  }
+  
+  public function join () {
+    
+  }
+  
+  public function leftJoin () {
+    
+  }
+  
+  public function sum () {
+    
+  }
+  
+  public function max () {
+    
+  }
+  
+  public function min () {
+    
+  }
+  
+  public function raw () {
+    
+  }
+  
+  public function transaction () {
+    
+  } 
+  
+  public function processProcedure () {
+    
+  }
+  
   
   /**
    * Execute the statement
@@ -229,7 +285,8 @@ class QueryConstructor
         $execute = self::$_DB->executeDelete ( $this->_statement, $this->_values );
         break;      
     }
- 
+    
+    $this->cleanData();
     return $execute;
   }
   
@@ -239,8 +296,7 @@ class QueryConstructor
    */
   
   public function select ( /*multiple arguments*/ ) {
-    
-    $this->cleanData();
+ 
     $this->_operation = 'select';
     
     if ( ! self::$_table )
@@ -249,14 +305,18 @@ class QueryConstructor
     if ( ! (boolean) func_num_args() ) 
       $fields = '*';
     else 
-      $fields = $this->concat('(', $this->buildParts ( func_get_args() ), ')');
+      //$fields = $this->concat('(', $this->buildParts ( func_get_args() ), ')');
+      $fields = $this->buildParts ( func_get_args() );
  
-    $this->_statement = $this->concat ( 'SELECT',  $fields, 'FROM', self::$_table );
+    $this->_statement = ( ! $this->_hasWhere ) 
+            ? $this->concat ( 'SELECT',  $fields, 'FROM', self::$_table )
+            : $this->concat ( 'SELECT', $fields, 'FROM', self::$_table, $this->_statement )
+            ;
+    
     return $this;
   }
   
   public function insert () {
-    $this->cleanData();
     $this->_operation = 'insert';
     
     foreach (func_get_args() as $elements ) {
@@ -283,7 +343,6 @@ class QueryConstructor
   }
   
   public function update ( Array $sets ) {
-    $this->cleanData();
     $this->_operation = 'update';
     
     $set = $this->buildParts( array_keys( $sets ),true, true, false);
@@ -292,28 +351,45 @@ class QueryConstructor
       $this->_values = array_merge($this->_values, $this->buildAssocValues($key, $value));
     });
   
-    $this->_statement = $this->concat('UPDATE', self::$_table, 'SET', $set);
+    $this->_statement = ( ! $this->_hasWhere )
+            ? $this->concat('UPDATE', self::$_table, 'SET', $set)
+            : $this->concat('UPDATE', self::$_table, 'SET', $set);
+    
     return $this;
   }
   
   public function delete (/*multiple params*/) {
-    $this->cleanData();
     $this->_operation = 'delete';
     
     $params = func_get_args();
     
-    $fields = '';
+    $fields = null;
     if ( ! empty ( $params ) ) 
       $fields = $this->buildParts( $params );
- 
-    $this->_statement = $this->concat('DELETE', $fields, 'FROM', self::$_table);
+    
+    $this->_statement = ( ! $this->_hasWhere )
+        ? $this->concat('DELETE', $fields, 'FROM', self::$_table)
+        : $this->concat('DELETE', $fields, 'FROM', self::$_table, $this->_statement);
+    
     return $this;
+  }
+  
+  public function truncate () {
+    
   }
   
   private function cleanData () {
     $this->_hasWhere  = false;
     $this->_values    = Array();
     $this->_statement = null;
+  }
+ 
+  public function getStatement() {
+    return $this->_statement;
+  }
+  
+  public function getValues () {
+    return $this->_values;
   }
   
 }
