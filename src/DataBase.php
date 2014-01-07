@@ -1,6 +1,10 @@
 <?php
 
+namespace Crystal;
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Singleton.php'; 
+
+use Crystal\Singleton;
 
 class DataBase { 
   
@@ -37,7 +41,7 @@ class DataBase {
   private function __construct () {
     try {
       $this->openConfig()->setData();
-      return $this->_connection = new PDO($this->driver.':host='.$this->hostname.';dbname='.$this->dbname, $this->user, $this->pass);
+      return $this->_connection = new \PDO($this->driver.':host='.$this->hostname.';dbname='.$this->dbname, $this->user, $this->pass);
     } 
     catch ( PDOException $e ) {
       throw new Exception('Could not connect to de database.');
@@ -68,8 +72,8 @@ class DataBase {
    * @throws Exception
    */
   private function setData () {
-    $iterator = new RecursiveArrayIterator (
-      new RecursiveArrayIterator ( json_decode ( $this->_configData, true ) )
+    $iterator = new \RecursiveArrayIterator (
+      new \RecursiveArrayIterator ( json_decode ( $this->_configData, true ) )
     );
     
     if ( in_array ( self::CONFIG_KEY, array_keys ( (Array) $iterator ) ) ) {
