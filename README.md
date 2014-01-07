@@ -150,7 +150,7 @@ var_dump( $delete );
 Soon
 ====
 Here is a list of the future implementations of the API:
- 
+ - *Chainning in any combination*
  - *Transaction methods*
  - *Custom queries*
  - *Extended SQL syntax (``join, using, on, ...``)*
