@@ -157,7 +157,7 @@ Here is a list of the future implementations of the API:
  - *read and write connections*
  - *Boolean values in ``where()``*
  - *Error handling*
- - *Namespaces*
+ - ~~**Namespaces**~~ 
  - *Better file organization*
  - *More sql implementations (``create user, set grant, create database, truncate table, delete database, ...``)*
 
