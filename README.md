@@ -100,6 +100,8 @@ Example
 <?php
 require_once 'src/Crystal.php';
 
+use Crystal\main as Crystal;
+
 Crystal::setTable('users');
 $DB = new Crystal();
 
