@@ -1,5 +1,7 @@
 <?php
 
+namespace Crystal;
+
 /**
  * This class set all the querys syntax
  * Class QueryConstructor
