@@ -33,12 +33,11 @@ Crystal delete( void )
 `````php 
 Crystal where( mixed $field, [ string comparison ], mixed $value )
 `````
- - **Crystal::limit** (chained from ``[select]``)
+ - **Crystal::orWhere** (chained from ``[select|update|delete]``)
 
 `````php 
 Crystal orWhere( mixed $field, [ string comparison ], mixed $value )
 `````
- - **Crystal::limit** (chained from ``[select]``)
 
 `````php 
 Crystal limit( Integer $limit )
