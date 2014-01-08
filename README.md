@@ -39,10 +39,6 @@ Crystal where( mixed $field, [ string comparison ], mixed $value )
 Crystal orWhere( mixed $field, [ string comparison ], mixed $value )
 `````
 
-`````php 
-Crystal limit( Integer $limit )
-`````
-
  - **Crystal::execute**
 
 `````php
