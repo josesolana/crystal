@@ -36,6 +36,11 @@ Crystal where( mixed $field, [ string comparison ], mixed $value )
  - **Crystal::limit** (chained from ``[select]``)
 
 `````php 
+Crystal orWhere( mixed $field, [ string comparison ], mixed $value )
+`````
+ - **Crystal::limit** (chained from ``[select]``)
+
+`````php 
 Crystal limit( Integer $limit )
 `````
 
